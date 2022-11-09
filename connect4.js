@@ -7,11 +7,11 @@
  * board fills (tie)
  */
 
-var WIDTH = 7;
-var HEIGHT = 6;
+const WIDTH = 7;
+const HEIGHT = 6;
 
-var currPlayer = 1; // active player: 1 or 2
-var board = []; // array of rows, each row is array of cells  (board[y][x])
+let currPlayer = 1; // active player: 1 or 2
+let board = []; // array of rows, each row is array of cells  (board[y][x])
 
 /** makeBoard: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])
@@ -19,21 +19,22 @@ var board = []; // array of rows, each row is array of cells  (board[y][x])
 
 function makeBoard() {
   // TODO: set "board" to empty HEIGHT x WIDTH matrix array
+  board = new Array(HEIGHT).fill(Array(WIDTH));
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
 function makeHtmlBoard() {
   // TODO: get "htmlBoard" variable from the item in HTML w/ID of "board"
-
-  // TODO: add comment for this code
-  var top = document.createElement("tr");
+  const htmlBoard = document.querySelector("#board");
+  // TODO: initialize top row to "top" variable
+  const top = document.createElement("tr");
   top.setAttribute("id", "column-top");
   top.addEventListener("click", handleClick);
 
-  // TODO: add comment for this code
-  for (var x = 0; x < WIDTH; x++) {
-    var headCell = document.createElement("td");
+  // TODO: appending the interactable top row to the gameboard
+  for (let x = 0; x < WIDTH; x++) {
+    const headCell = document.createElement("td");
     headCell.setAttribute("id", x);
     top.append(headCell);
   }
@@ -42,20 +43,21 @@ function makeHtmlBoard() {
   // dynamically creates the main part of html board
   // uses HEIGHT to create table rows
   // uses WIDTH to create table cells for each row
-  for (var y = 0; y < HEIGHT; y++) {
+  for (let y = 0; y < HEIGHT; y++) {
     // TODO: Create a table row element and assign to a "row" variable
+    const row = document.createElement("tr");
 
-    for (var x = 0; x < WIDTH; x++) {
+    for (let x = 0; x < WIDTH; x++) {
       // TODO: Create a table cell element and assign to a "cell" variable
-
+      const cell = document.createElement("td");
       // TODO: add an id, c-y-x, to the above table cell element
+      cell.setAttribute("id", `c-${y}-${x}`);
       // you'll use this later, so make sure you use c-y-x
-
       // TODO: append the table cell to the table row
-
+      row.append(cell);
     }
     // TODO: append the row to the html board
-
+    htmlBoard.append(row);
   }
 }
 
@@ -109,17 +111,14 @@ function handleClick(evt) {
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
 function checkForWin() {
-
   /** _win:
    * takes input array of 4 cell coordinates [ [y, x], [y, x], [y, x], [y, x] ]
    * returns true if all are legal coordinates for a cell & all cells match
    * currPlayer
    */
   function _win(cells) {
-
     // TODO: Check four cells to see if they're all legal & all color of current
     // player
-
   }
 
   // using HEIGHT and WIDTH, generate "check list" of coordinates
@@ -132,7 +131,12 @@ function checkForWin() {
       // each should be an array of 4 cell coordinates:
       // [ [y, x], [y, x], [y, x], [y, x] ]
 
-      let horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
+      let horiz = [
+        [y, x],
+        [y, x + 1],
+        [y, x + 2],
+        [y, x + 3],
+      ];
       let vert;
       let diagDL;
       let diagDR;
