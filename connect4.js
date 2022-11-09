@@ -19,7 +19,7 @@ let board = []; // array of rows, each row is array of cells  (board[y][x])
 
 function makeBoard() {
   // TODO: set "board" to empty HEIGHT x WIDTH matrix array
-  board = new Array(HEIGHT).fill(Array(WIDTH));
+  board = new Array(HEIGHT).fill(Array(WIDTH).fill(null));
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
@@ -65,6 +65,7 @@ function makeHtmlBoard() {
 
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 5
+
   return 5;
 }
 
@@ -72,6 +73,11 @@ function findSpotForCol(x) {
 
 function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
+  let piece = document.createElement("div");
+  let cell = document.querySelectorAll(`#c-${y}-${x}`);
+
+  cell.append(piece);
+  piece.classList.add("piece", currPlayer);
 }
 
 /** endGame: announce game end */
