@@ -19,7 +19,10 @@ let board = []; // array of rows, each row is array of cells  (board[y][x])
 
 function makeBoard() {
   // TODO: set "board" to empty HEIGHT x WIDTH matrix array
-  board = new Array(HEIGHT).fill(Array(WIDTH).fill(null));
+  // board = new Array(HEIGHT).fill(new Array(WIDTH).fill(null));
+  for (let y = 0; y < HEIGHT; y++) {
+    board.push(new Array(WIDTH).fill(null));
+  }
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
@@ -65,7 +68,7 @@ function makeHtmlBoard() {
 
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 5
-  for (let y = HEIGHT - 1; y >= 0; y = y - 1) {
+  for (let y = HEIGHT - 1; y >= 0; y--) {
     if (board[y][x] === null) {
       return y;
     }
@@ -78,8 +81,8 @@ function findSpotForCol(x) {
 
 function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
-  let piece = document.createElement("div");
-  let cell = document.querySelector(`#c-${y}-${x}`);
+  const piece = document.createElement("div");
+  const cell = document.querySelector(`#c-${y}-${x}`);
 
   cell.append(piece);
   piece.classList.add("piece", `p${currPlayer}`);
@@ -119,7 +122,7 @@ function handleClick(evt) {
     const currentRow = board[y];
 
     if (currentRow.some((cell) => cell === null)) {
-      return;
+      break;
     }
 
     return endGame(`It\s' a tie!`);
@@ -127,7 +130,12 @@ function handleClick(evt) {
 
   // switch players
   // TODO: switch currPlayer 1 <-> 2
-  currPlayer = currPlayer === 1 ? 1 : 2;
+  // currPlayer = currPlayer === 1 ? 2 : 1;
+  if (currPlayer === 1) {
+    currPlayer = 2;
+  } else {
+    currPlayer = 1;
+  }
 }
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
