@@ -92,6 +92,7 @@ function placeInTable(y, x) {
 
 function endGame(msg) {
   // TODO: pop up alert message
+  alert(msg);
 }
 
 /** handleClick: handle click of column top to play piece */
@@ -131,7 +132,6 @@ function handleClick(evt) {
   // switch players
   // TODO: switch currPlayer 1 <-> 2
   currPlayer = currPlayer === 1 ? 2 : 1;
-
 }
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
@@ -141,23 +141,41 @@ function checkForWin() {
    * returns true if all are legal coordinates for a cell & all cells match
    * currPlayer
    */
+  // function _win(cells) {
+  //   // TODO: Check four cells to see if they're all legal & all color of current
+  //   // player
+  //   for (let cell of cells) {
+  //     const coord1 = cell[0];
+  //     const coord2 = cell[1];
+
+  //     if (board[coord1] !== undefined) {
+  //       if (board[coord1][coord2] !== undefined) {
+  //         if (board[coord1][coord2] !== currPlayer) {
+  //           return false;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return true;
+  // }
+
   function _win(cells) {
+    // Check four cells to see if they're all color of current player
+    //  - cells: list of four (y, x) cells
+    //  - returns true if all are legal coordinates & all match currPlayer
 
-    // TODO: Check four cells to see if they're all legal & all color of current
-    // player
-    for (let cell of cells) {
-      // console.log("cell:",cell)
-      // console.log("cells:",cells)
-      // console.log("cells:",cell[0])
-      // console.log("cells:",cell[1])
-
-      const curCoord = board[Number(cell[0])][Number(cell[1])];
-
-      if (curCoord === undefined || curCoord !== currPlayer) {
-        return;
-    }
+    return cells.every((cell) => {
+      const y = cell[0];
+      const x = cell[1];
+      return (
+        y >= 0 &&
+        y < HEIGHT &&
+        x >= 0 &&
+        x < WIDTH &&
+        board[y][x] === currPlayer
+      );
+    });
   }
-}
 
   // using HEIGHT and WIDTH, generate "check list" of coordinates
   // for 4 cells (starting here) for each of the different
@@ -180,19 +198,19 @@ function checkForWin() {
         [y + 1, x],
         [y + 2, x],
         [y + 3, x],
-      ]
+      ];
       let diagDL = [
         [y, x],
-        [y - 1, x - 1],
-        [y - 2, x - 2],
-        [y - 3, x - 3],
-      ]
-      let diagDR =  [
+        [y + 1, x - 1],
+        [y + 2, x - 2],
+        [y + 3, x - 3],
+      ];
+      let diagDR = [
         [y, x],
         [y + 1, x + 1],
         [y + 2, x + 2],
         [y + 3, x + 3],
-      ]
+      ];
 
       // find winner (only checking each win-possibility as needed)
       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
